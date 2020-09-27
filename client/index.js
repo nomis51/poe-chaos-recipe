@@ -35,11 +35,11 @@ function fetchStashTabs() {
     })
 }
 
-function thresholdStyle(count, isRareItemType = false, half = false) {
+function thresholdStyle(count, isRareItemType = false, halfValue = false) {
     const quarter = config.threshold / (isRareItemType ? 2 : 4),
         half = config.threshold / (isRareItemType ? 1 : 2);
 
-    let _count = half ? count / 2 : count;
+    let _count = halfValue ? count / 2 : count;
 
     if (_count < quarter || _count === 0) {
         return 'threshold-very-low'
