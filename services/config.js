@@ -1,5 +1,12 @@
 const fs = require('fs');
 
+if (!fs.existsSync('./config.json')) {
+    fs.writeFileSync('./config.json', {
+        refreshInterval: 30,
+        threshold: 5
+    });
+}
+
 function getConfig() {
     if (fs.existsSync('./config.json')) {
         return JSON.parse(fs.readFileSync('./config.json', { encoding: 'utf8' }));
