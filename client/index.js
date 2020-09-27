@@ -1,6 +1,7 @@
 let selectedTabIndexes = [];
 let config = {}
-const rareItemTypes = ['ring', 'amulet', 'belt']
+const rareItemTypes = ['ring', 'amulet', 'belt'];
+const countHalf = ['ring', 'hand']
 
 function writeMessage(msg) {
     document.getElementById('message').innerText = msg;
@@ -34,17 +35,19 @@ function fetchStashTabs() {
     })
 }
 
-function thresholdStyle(count, isRareItemType = false) {
+function thresholdStyle(count, isRareItemType = false, half = false) {
     const quarter = config.threshold / (isRareItemType ? 2 : 4),
         half = config.threshold / (isRareItemType ? 1 : 2);
 
-    if (count < quarter || count === 0) {
+    let _count = half ? count / 2 : count;
+
+    if (_count < quarter || _count === 0) {
         return 'threshold-very-low'
-    } else if (count < half) {
+    } else if (_count < half) {
         return 'threshold-low'
-    } else if (count < half + quarter) {
+    } else if (_count < half + quarter) {
         return 'threshold-medium'
-    } else if (count < config.threshold) {
+    } else if (_count < config.threshold) {
         return 'threshold-high'
     } else {
         return 'threshold-very-high'
@@ -62,7 +65,7 @@ function fetchChaosRecipe() {
                 if (e !== '_meta') {
                     html += `
                     <div class="col">
-                        <div id="${e}" class="card ${thresholdStyle(result[e].totalCount, rareItemTypes.indexOf(e) !== -1)}">
+                        <div id="${e}" class="card ${thresholdStyle(result[e].totalCount, rareItemTypes.indexOf(e) !== -1, countHalf.indexOf(e) !== -1)}">
                             <img class="card-img-top" src="./assets/${e}.svg" alt="">
 
                             <div class="card-body">
