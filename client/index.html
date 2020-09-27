@@ -1,0 +1,152 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Path of Exile Chaos Recipe Tracker</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style>
+        body,
+        html {
+            background-color: #666;
+            color: white;
+        }
+
+        .stash-tab {
+            margin-right: 10px;
+        }
+
+        .card {
+            background-color: rgb(148, 144, 144);
+            color: white;
+            width: 5rem;
+        }
+
+        .card>img {
+            height: 100%;
+        }
+
+        .card {
+            text-align: center;
+            justify-content: center;
+        }
+
+        .threshold-medium>img {
+            filter: invert(18%) sepia(100%) saturate(7421%) hue-rotate(4deg) brightness(108%) contrast(116%);
+        }
+
+        .threshold-very-low>img {
+            filter: invert(91%) sepia(92%) saturate(7500%) hue-rotate(357deg) brightness(103%) contrast(102%);
+        }
+
+        .threshold-low>img {
+            filter: invert(57%) sepia(100%) saturate(933%) hue-rotate(0deg) brightness(103%) contrast(105%);
+        }
+
+        .threshold-high>img {
+            filter: invert(26%) sepia(85%) saturate(1965%) hue-rotate(94deg) brightness(94%) contrast(103%);
+        }
+
+        .threshold-very-high>img {
+            filter: invert(100%) sepia(0%) saturate(7454%) hue-rotate(297deg) brightness(114%) contrast(65%);
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        .icon {
+            width: 25px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Path of Exile Chaos Recipe Tracker</h1>
+        <form>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="select-leagues">League:</label>
+                        <select id="select-leagues" class="form-control" onchange="onLeagueChange()"></select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="account-name">Account name:</label>
+                        <input id="account-name" onchange="onAccountNameChange()" class="form-control form-text"
+                            type="text" placeholder="Account name">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="session-id">POESESSID:</label>
+                        <input id="session-id" class="form-control form-text" onchange="onSessionIdChange()"
+                            type="password" placeholder="Session ID">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="threshold">Threshold:</label>
+                        <input id="threshold" class="form-control form-text" onchange="onThreasholdChange()"
+                            type="number" min="1" placeholder="Threshold">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="refresh-interval">Refresh interval (seconds):</label>
+                        <input id="refresh-interval" class="form-control" onchange="onRefreshIntervalChange()"
+                            form-text" type="number" min="30" placeholder="Refresh interval">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>Selected stash tab(s): </label>
+                    <div id="stash-tabs">
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="col">
+                <div id="chaos-recipe">
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p id="nb-chaos-recipe"></p>
+            </div>
+        </div>
+        <div class="row" id="footer">
+            <div class="col offset-5">
+                <p id="message"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <script src="./index.js"></script>
+</body>
+
+
+</html>
