@@ -1,7 +1,9 @@
-const console = require('console');
 const requestPromise = require('request-promise');
+const { getConfig } = require('./config')
 
-const BASE_URL = 'https://www.pathofexile.com/character-window/get-stash-items';
+const STASH_ITEMS_URL = 'https://www.pathofexile.com/character-window/get-stash-items';
+const CHARS_URL = 'https://www.pathofexile.com/character-window/get-characters'
+const CHAR_ITEMS_URL = 'https://www.pathofexile.com/character-window/get-items'
 const RARE_FRAME_TYPE = 2;
 
 const getTypeFrom = ({ icon }) => {
@@ -18,9 +20,24 @@ const getTypeFrom = ({ icon }) => {
   return null;
 };
 
-const fetchFromStashIndex = async (stashIndex, account, league, sessionId) => {
+async function fetchLastCharacter(sessionId) {
   const rawResponse = await requestPromise({
-    uri: encodeURI(`${BASE_URL}?accountName=${account}&league=${league}&tabIndex=${stashIndex}`),
+    uri: encodeURI(`${CHARS_URL}`),
+    headers: {
+      Cookie: `POESESSID=${sessionId}`
+    }
+  });
+
+  const chars = JSON.parse(rawResponse);
+
+  const league = getConfig().league;
+
+  return chars.find(c => c.lastActive && c.league === league);
+}
+
+async function fetchCharacterItems(charName, accountName, sessionId) {
+  const rawResponse = await requestPromise({
+    uri: encodeURI(`${CHAR_ITEMS_URL}?realm=pc&accountName=${accountName}&character=${charName}`),
     headers: {
       Cookie: `POESESSID=${sessionId}`
     }
@@ -34,6 +51,28 @@ const fetchFromStashIndex = async (stashIndex, account, league, sessionId) => {
     identified: rawItem.identified,
     isRare: rawItem.frameType === RARE_FRAME_TYPE
   }));
+}
+
+const fetchFromStashIndex = async (stashIndex, account, league, sessionId) => {
+  const rawResponse = await requestPromise({
+    uri: encodeURI(`${STASH_ITEMS_URL}?accountName=${account}&league=${league}&tabIndex=${stashIndex}`),
+    headers: {
+      Cookie: `POESESSID=${sessionId}`
+    }
+  });
+
+  const { items: rawItems } = JSON.parse(rawResponse);
+
+  const currentChar = await fetchLastCharacter(sessionId);
+  const charItems = await fetchCharacterItems(currentChar.name, account, sessionId)
+
+  return rawItems.map(rawItem => ({
+    itemLevel: rawItem.ilvl,
+    type: getTypeFrom(rawItem),
+    identified: rawItem.identified,
+    isRare: rawItem.frameType === RARE_FRAME_TYPE
+  }))
+    .concat(charItems);
 };
 
 exports.fetchStashItems = async (stashIndexes, account, league, sessionId) => {
