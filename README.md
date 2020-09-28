@@ -13,9 +13,9 @@ Node.js 12+
 A browser (Google Chrome, Firefox, Microsoft Edge, etc.)
 
 ## Get started
-Start the app with the "start.bat" file.
-Minimize the Command Line window.
-Navigate to http://localhost:3000 in your favorite browser.
-Configure the app with the required settings: League, Account name, POESESSID, Threshold and Refresh interval.
-Select one or more tabs to monitor (less tabs gives better performance).
-Enjoy!
+- Start the app with the "start.bat" file. (For Linux and MacOS users: Start the app in a terminal in the app directory using the command `node app.js`)
+- Minimize the Command Line/Terminal window.
+- Navigate to http://localhost:3000 in your favorite browser.
+- Configure the app with the required settings: League, Account name, POESESSID, Threshold and Refresh interval.
+- Select one or more tabs to monitor (less tabs gives better performance).
+- Enjoy!
